@@ -19,6 +19,7 @@
     "@types/react": "17.0.33",
     "eslint": "7",
     "eslint-config-next": "12.0.1",
-    "typescript": "4.4.4"
+    "typescript": "4.4.4",
+    "webpack-cli": "^4.9.1"
   }
 }
