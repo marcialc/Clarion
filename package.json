@@ -9,12 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.24.0",
+    "chart.js": "^3.6.2",
+    "faker": "^5.5.3",
     "next": "12.0.1",
     "react": "17.0.2",
+    "react-chartjs-2": "^4.0.0",
     "react-dom": "17.0.2",
     "sass": "^1.43.4"
   },
   "devDependencies": {
+    "@types/faker": "^5.5.9",
     "@types/node": "16.11.6",
     "@types/react": "17.0.33",
     "eslint": "7",

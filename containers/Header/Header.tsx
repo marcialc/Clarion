@@ -1,5 +1,4 @@
 import React from 'react';
-// import type { NextPage } from 'next'
 import styles from '../../styles/Header.module.scss'
 
 export const Header = (props: any) => {
