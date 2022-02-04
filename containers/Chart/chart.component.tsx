@@ -28,6 +28,15 @@ ChartJS.register(
 
 let delayed: boolean;
 
+const roundUp = (n: number) => {
+  return Math.round(100*n)/100; 
+}
+
+const capitalize = (word: string) => {
+  const str = word.toLocaleLowerCase();
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export const options = {
   responsive: true,
   maintainAspectRatio: true,
@@ -37,9 +46,38 @@ export const options = {
       labels: {
         font: {
           size: 15
+        },
+        generateLabels: (chart: any) => {
+          console.log("LABELS: ", chart.data);
+          var data = chart.data.datasets;
+          if (data.length) {
+            return data.map(function(label: any, i: number) {
+              var meta = chart.getDatasetMeta(0);
+              var ds = data[0];
+                return {
+                fillStyle: label.backgroundColor,
+                strokeStyle: label.backgroundColor,
+                hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                text: capitalize(label.label),
+                index: i
+              };
+            });
+          }
+          return [];
         }
       }
     },
+    tooltip: {
+      callbacks: {
+        footer: (context: any) => {
+          console.log("context: ",context[0])
+          const data = context[0];
+          const name = `% ${roundUp(data.raw)}`
+          const arr = [name];
+          return arr;
+        }
+      }
+    }
   },
   scales: {
     yAxes: {
@@ -66,27 +104,18 @@ export const options = {
   },
 };
 
-const LineChart = ({ data, displayFilterDropDown = false, listOfItems }: AppProps) => {
+const LineChart = ({ data }: AppProps) => {
   const chartRef = useRef();
 
   useEffect(() => {
     const chart: any = chartRef.current;
     chart.reset()
     chart.render()
-    console.log("USE EFFECT")
   })
 
 
   const getDisplayData = () => {
     return Object.keys(data.datasets).length === 0
-  }
-
-  const handleRemoveData = () => {
-    const chart: any = chartRef.current;
-
-    console.log("chart", chart)
-    // chart.update()
-    console.log("BUTTON CLICK")
   }
   
   const lineGraph = getDisplayData() ? 
@@ -96,24 +125,28 @@ const LineChart = ({ data, displayFilterDropDown = false, listOfItems }: AppProp
       datasetIdKey='id' 
       options={options} 
       data={data} />
+  
+  const deleteB = () => {
+    const chart: any = chartRef.current;
 
-  const dropDown = displayFilterDropDown ?   
-    <DropDown list={["bitcoin", "etherrium"]} callback={handleRemoveData} label="Remove Data" minWidth={145}/>
-    :<></>;
+    const index = chart.data.datasets.findIndex((element: any) => element.label.toLocaleLowerCase() === 'ethereum');
+    chart.data.datasets.splice(index, index+1); 
+
+    console.log("Datasets: ", chart.data.datasets)
+
+    chart.update();
+  }
 
   return (
     <div>
         {lineGraph}
-        {dropDown}
+        <button onClick={deleteB}>Delete Bitcoin</button>
     </div>
   )
 }
 
 type AppProps = {
   data: { labels: Array<any>, datasets: Array<any> },
-  displayFilterDropDown?: boolean,
-  listOfItems?: string[]
-
 }
 
 export default LineChart;

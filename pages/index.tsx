@@ -11,11 +11,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Header />
-
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to Clarion
-        </h1>
         <NewDashboard />
         {/* <LineChart /> */}
       </main>

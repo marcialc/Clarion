@@ -3,6 +3,7 @@ import axios from 'axios';
 import DropDown from '../../components/dropdown/dropdown.component';
 import LineChart from '../Chart/chart.component';
 import styled from 'styled-components';
+import AutoFillDropDown from '../../components/autoFillDropDown/autofilldropdown.component';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -35,7 +36,8 @@ export class NewDashboard extends Component {
       "Cardano",
       "Dogecoin",
       "Polkadot",
-      "Helium"
+      "Helium",
+      "Solana"
     ]
 
     this.setState({ listCoins: listCoins })
@@ -55,7 +57,6 @@ export class NewDashboard extends Component {
     let label: any[] = [];
 
     selectedCoins.map(async(coin, index) => {
-      const x: any[] = [];
       const response: any = await fetchCoinData(coin, index === 0, label);
       const color = generateRandomColor();
       datasets.push({
@@ -67,22 +68,6 @@ export class NewDashboard extends Component {
         pointBorderWidth: 0.2,
       })
     })    
-
-    const labels: any[] = [];
-    console.log("lab: ",label)
-
-    label.forEach((el, index) => {
-      console.log("ERE")
-      if(index % 5 === 0) {
-        labels.push(el)
-      }else {
-        label.push("");
-      }
-    })
-
-    console.log(labels)
-
-
     const data = {
       labels: label,
       datasets,
@@ -102,14 +87,14 @@ export class NewDashboard extends Component {
       const data: { labels: Array<any>, datasets: Array<any> } = this.state.data;
       let chart;
       if(Object.keys(data.labels).length !== 0 || Object.keys(data.datasets).length !== 0){
-        chart = <LineChart data={data} displayFilterDropDown={true} />
+        chart = <LineChart data={data}/>
       } else {
         chart = <p>loading...</p>
       }
 
     return (
       <div style={{ width: "100%" }}>
-      <DropDown list={this.state.listCoins} callback={this.handleInput} label="Cryptos"/>
+      <AutoFillDropDown list={this.state.listCoins} callback={this.handleInput} label="Cryptos"/>
         <div  style={{ width:"80%", margin: "0 auto" }}>
          {chart} 
         </div>
@@ -132,7 +117,7 @@ const generateRandomColor = () => {
 async function fetchCoinData(coin: string, getLabels = false, labels: Array<any>) {
   const xAxis: any[] = [];
   const yAxis: any[] = [];
-  axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=1`)
+  axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=2`)
     .then(res => {
         const prices = res.data.prices;
         let basePrice  = 0;
