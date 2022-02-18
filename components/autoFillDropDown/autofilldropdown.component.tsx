@@ -5,7 +5,6 @@ const AutoFillDropDown = ({ list, callback, label }: DropDownProps) => {
   const [value, setValue] = useState('');
 
   const handleChange = (input: string) => {
-    console.log("input: ",input)
     setValue(input);
     if(list.includes(input)) callback(input);
   };
