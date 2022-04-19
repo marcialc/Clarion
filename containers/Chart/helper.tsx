@@ -1,4 +1,4 @@
-// lines plugin
+// lines plugins
 export const lines = {
     id: "lines",
     beforeDatasetsDraw(chart: any) {
