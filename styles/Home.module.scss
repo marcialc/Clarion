@@ -1,5 +1,6 @@
 .container {
   padding: 0 2rem;
+  background-color: #10092a;
 }
 
 .main {
@@ -8,11 +9,12 @@
 
 .footer {
   display: flex;
+  flex-wrap: wrap;
   flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
+  padding: 2rem 1rem;
+  justify-content: space-between;
   align-items: center;
+  color: white;
 }
 
 .footer a {

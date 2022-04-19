@@ -5,7 +5,7 @@ export const Header = (props: any) => {
   return(
     <div className={styles.header}>
       <h1>Clarion</h1>
-      <div className={styles.navbar}>
+      {/* <div className={styles.navbar}>
         <ul>
           <li>Home</li>
           <li>About</li>
@@ -13,7 +13,7 @@ export const Header = (props: any) => {
           <li>News</li>
           <li>Events</li>
         </ul>
-      </div>
+      </div> */}
     </div>
   )
 };
